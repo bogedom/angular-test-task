@@ -1,0 +1,18 @@
+:host {
+  padding: 16px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.submit-button {
+  margin-top: 10px
+}

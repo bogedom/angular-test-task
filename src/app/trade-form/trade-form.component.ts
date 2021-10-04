@@ -1,15 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-trade-form',
   templateUrl: './trade-form.component.html',
   styleUrls: ['./trade-form.component.css']
 })
-export class TradeFormComponent implements OnInit {
+export class TradeFormComponent {
+  tradeForm: FormGroup = this.formBuilder.group({
+    entryDate: ['', Validators.required],
+    entryPrice: [0, [Validators.required, Validators.min(0)]],
+    exitDate: ['', Validators.required],
+    exitPrice: [0, [Validators.required, Validators.min(0)]],
+    profit: [0, Validators.required],
+  });
 
-  constructor() { }
+  exitDateFilter = (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    // Prevent Saturday and Sunday from being selected.
+    return day !== 0 && day !== 6;
+  }
 
-  ngOnInit(): void {
+  constructor(private readonly formBuilder: FormBuilder) { }
+
+  get entryDate() {
+    return this.tradeForm.get('entryDate');
+  }
+
+  get entryPrice() {
+    return this.tradeForm.get('entryPrice');
+  }
+
+  get exitDate() {
+    return this.tradeForm.get('exitDate');
+  }
+
+  get exitPrice() {
+    return this.tradeForm.get('exitPrice');
+  }
+
+  onSubmit() {
+    console.log(this.tradeForm.value);
+  }
+
+  calculateProfit() {
+    if (this.exitPrice !== null && this.entryPrice !== null) {
+      const profit = this.exitPrice.value - this.entryPrice.value;
+      this.tradeForm.setValue({ ...this.tradeForm.value, profit });
+    }
   }
 
 }

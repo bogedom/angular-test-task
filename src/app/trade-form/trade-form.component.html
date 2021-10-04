@@ -1,1 +1,52 @@
-<p>trade-form works!</p>
+<form [formGroup]="tradeForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <mat-form-field>
+      <mat-label>Entry date</mat-label>
+      <input matInput [matDatepicker]="entryDatePicker" formControlName="entryDate">
+      <mat-datepicker-toggle matSuffix [for]="entryDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #entryDatePicker></mat-datepicker>
+      <mat-error *ngIf="entryDate?.hasError('required')">
+        Date required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Entry Price</mat-label>
+      <input matInput type="number" formControlName="entryPrice" autocomplete="off" (change)="calculateProfit()">
+      <mat-error *ngIf="entryPrice?.hasError('required')">
+        Price required
+      </mat-error>
+      <mat-error *ngIf="entryPrice?.hasError('min')">
+        Price can’t be less than 0
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <mat-form-field>
+      <mat-label>Exit date</mat-label>
+<!--             [matDatepickerFilter]="exitDateFilter"-->
+      <input matInput
+             [matDatepicker]="exitDatePicker"
+             formControlName="exitDate">
+      <mat-datepicker-toggle matSuffix [for]="exitDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #exitDatePicker></mat-datepicker>
+      <mat-error *ngIf="exitDate?.hasError('required')">
+        Date required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Exit Price</mat-label>
+      <input matInput type="number" formControlName="exitPrice" autocomplete="off" (change)="calculateProfit()">
+      <mat-error *ngIf="exitPrice?.hasError('required')">
+        Price required
+      </mat-error>
+      <mat-error *ngIf="exitPrice?.hasError('min')">
+        Price can’t be less than 0
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div>Profit: {{tradeForm.get('profit')?.value || 0}}</div>
+  <button class="submit-button" mat-raised-button color="primary" type="submit"
+          [disabled]="tradeForm.invalid">
+    Add
+  </button>
+</form>
