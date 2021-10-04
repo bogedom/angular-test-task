@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TradeStoreService } from '../core/trade-store.service';
 
 @Component({
   selector: 'app-trade-form',
@@ -21,7 +22,10 @@ export class TradeFormComponent {
     return day !== 0 && day !== 6;
   }
 
-  constructor(private readonly formBuilder: FormBuilder) { }
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private readonly tradeStoreService: TradeStoreService
+  ) { }
 
   get entryDate() {
     return this.tradeForm.get('entryDate');
@@ -40,7 +44,11 @@ export class TradeFormComponent {
   }
 
   onSubmit() {
-    console.log(this.tradeForm.value);
+    if (this.tradeForm.invalid) {
+      return;
+    }
+
+    this.tradeStoreService.add(this.tradeForm.value)
   }
 
   calculateProfit() {
