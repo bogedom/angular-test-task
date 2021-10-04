@@ -12,7 +12,6 @@ export class BalanceService {
   getBalance(trades: Trade[]) {
     return trades.reduce((balance, trade) => {
       const date = `${this.monthNames[trade.exitDate.getMonth()]} ${trade.exitDate.getDate()}`
-      console.log(date);
 
       let profit = balance.get(date) || 0;
 

@@ -17,9 +17,10 @@ export class TradeFormComponent {
   });
 
   exitDateFilter = (d: Date | null): boolean => {
-    const day = (d || new Date()).getDay();
-    // Prevent Saturday and Sunday from being selected.
-    return day !== 0 && day !== 6;
+    const day = (d || new Date()).getTime();
+    const entryDate = this.entryDate?.value;
+
+    return !!entryDate && entryDate.getTime() <= day;
   }
 
   constructor(
@@ -55,6 +56,14 @@ export class TradeFormComponent {
     if (this.exitPrice !== null && this.entryPrice !== null) {
       const profit = this.exitPrice.value - this.entryPrice.value;
       this.tradeForm.setValue({ ...this.tradeForm.value, profit });
+    }
+  }
+
+  checkExitDate() {
+    const exitDate = this.exitDate?.value;
+
+    if (!!exitDate && exitDate.getTime() < this.entryDate?.value.getTime()) {
+      this.exitDate?.reset()
     }
   }
 

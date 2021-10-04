@@ -3,7 +3,9 @@
   <div class="row">
     <mat-form-field>
       <mat-label>Entry date</mat-label>
-      <input matInput [matDatepicker]="entryDatePicker" formControlName="entryDate">
+      <input matInput [matDatepicker]="entryDatePicker" formControlName="entryDate"
+             autocomplete="off"
+             (dateChange)="checkExitDate()">
       <mat-datepicker-toggle matSuffix [for]="entryDatePicker"></mat-datepicker-toggle>
       <mat-datepicker #entryDatePicker></mat-datepicker>
       <mat-error *ngIf="entryDate?.hasError('required')">
@@ -24,10 +26,10 @@
   <div class="row">
     <mat-form-field>
       <mat-label>Exit date</mat-label>
-<!--             [matDatepickerFilter]="exitDateFilter"-->
       <input matInput
+             [matDatepickerFilter]="exitDateFilter"
              [matDatepicker]="exitDatePicker"
-             formControlName="exitDate">
+             formControlName="exitDate" autocomplete="off">
       <mat-datepicker-toggle matSuffix [for]="exitDatePicker"></mat-datepicker-toggle>
       <mat-datepicker #exitDatePicker></mat-datepicker>
       <mat-error *ngIf="exitDate?.hasError('required')">
